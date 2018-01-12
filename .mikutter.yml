@@ -1,0 +1,9 @@
+---
+slug: :mikutter_extract_media
+depends:
+  mikutter: 3.5.0
+  plugin: []
+version: '1.0'
+author: '@cobodo@mstdn.kanagu.info'
+name: mikutter_extract_media
+description: 抽出タブの絞り込み条件に「メディアを含む」を追加するmikutterプラグイン
