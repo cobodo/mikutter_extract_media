@@ -15,7 +15,7 @@ Plugin.create :extract_media do
       Enumerator.new{|y|
         Plugin.filtering(:openimg_image_openers, y)
       }.any?{|opener|
-        opener.condition === uri
+        opener.condition === uri.to_s
       }
     }
   end
