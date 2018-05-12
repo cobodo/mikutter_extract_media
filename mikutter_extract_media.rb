@@ -1,4 +1,4 @@
-Plugin.create :extract_media do
+Plugin.create :mikutter_extract_media do
   exts = Gtk::FormDSL::PIXBUF_PHOTO_FILTER.values.flatten.map(&:downcase).uniq.map {|ext| ".#{ext}" }
 
   defextractcondition(:include_media, name: _('メディアを含む'), operator: false, args: 0) do |message:raise|
