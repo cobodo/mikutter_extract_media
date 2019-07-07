@@ -1,8 +1,9 @@
 ---
 slug: :mikutter_extract_media
 depends:
-  mikutter: 3.5.0
-  plugin: []
+  mikutter: 3.9.0
+  plugin:
+    - score
 version: '1.0'
 author: '@cobodo@mstdn.kanagu.info'
 name: mikutter_extract_media
