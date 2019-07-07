@@ -1,21 +1,18 @@
-Plugin.create :extract_media do
-  defextractcondition(:include_media, name: _('メディアを含む'), operator: false, args: 0) do |message:raise|
-    message.entity.any?{|entity|
-      if entity[:open].is_a?(Plugin::Photo::Photo)
-        next true
-      end
-      uri = nil
-      if entity[:open].is_a?(String)
-        uri = entity[:open]
-      elsif entity[:open].is_a?(Diva::Model)
-        uri = entity[:open].uri
-      end
-      next false if uri.nil?
+Plugin.create :mikutter_extract_media do
+  exts = Gtk::FormDSL::PIXBUF_PHOTO_FILTER.values.flatten.map(&:downcase).uniq.map {|ext| ".#{ext}" }
 
-      Enumerator.new{|y|
-        Plugin.filtering(:openimg_image_openers, y)
-      }.any?{|opener|
-        opener.condition === uri.to_s
+  defextractcondition(:include_media, name: _('メディアを含む'), operator: false, args: 0) do |message:raise|
+    uris = score_of(message).select{|note| !note.respond_to?(:inline_photo) }.map(&:uri).map(&:to_s)
+    has_normal_image = uris.any? do |uri|
+      exts.any? {|ext| uri.downcase.end_with? ext}
+    end
+    next true if has_normal_image
+
+    Enumerator.new{|y|
+      Plugin.filtering(:openimg_image_openers, y)
+    }.any?{|opener|
+      uris.any?{|uri|
+        opener.condition === uri
       }
     }
   end
